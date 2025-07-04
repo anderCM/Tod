@@ -1,0 +1,31 @@
+transaction_id,merchant_id,merchant_name,customer_email,amount,currency,status,transaction_date,payment_method,reference,description,commission_amount,net_amount
+KHP-001,STORE-001,Supermercado Central,maria.gonzalez@email.com,25000,CLP,completed,2024-12-01 14:30:00,credit_card,TXN-A1B2C3,Compra en Supermercado Central,1250,23750
+KHP-002,STORE-002,Farmacia Salud,juan.perez@email.com,15000,CLP,completed,2024-12-01 15:45:00,debit_card,TXN-D4E5F6,Compra en Farmacia Salud,750,14250
+KHP-003,STORE-003,Restaurante El Buen Sabor,ana.silva@email.com,35000,CLP,completed,2024-12-01 18:20:00,credit_card,TXN-G7H8I9,Cena en Restaurante El Buen Sabor,1750,33250
+KHP-004,STORE-001,Supermercado Central,carlos.rodriguez@email.com,18000,CLP,completed,2024-12-02 09:15:00,debit_card,TXN-J1K2L3,Compra en Supermercado Central,900,17100
+KHP-005,STORE-004,Tienda de Ropa Moda Express,laura.martinez@email.com,45000,CLP,completed,2024-12-02 11:30:00,credit_card,TXN-M4N5O6,Compra en Tienda de Ropa,2250,42750
+KHP-006,STORE-005,Gasolinera Rápida,roberto.lopez@email.com,28000,CLP,completed,2024-12-02 16:45:00,debit_card,TXN-P7Q8R9,Combustible en Gasolinera Rápida,1400,26600
+KHP-007,STORE-002,Farmacia Salud,carmen.torres@email.com,12000,CLP,failed,2024-12-02 17:20:00,credit_card,TXN-S1T2U3,Compra en Farmacia Salud,600,11400
+KHP-008,STORE-003,Restaurante El Buen Sabor,diego.herrera@email.com,22000,CLP,completed,2024-12-03 12:30:00,debit_card,TXN-V4W5X6,Almuerzo en Restaurante El Buen Sabor,1100,20900
+KHP-009,STORE-001,Supermercado Central,maria.gonzalez@email.com,32000,CLP,completed,2024-12-03 14:15:00,credit_card,TXN-Y7Z8A9,Compra en Supermercado Central,1600,30400
+KHP-010,STORE-004,Tienda de Ropa Moda Express,juan.perez@email.com,38000,CLP,completed,2024-12-03 15:45:00,credit_card,TXN-B1C2D3,Compra en Tienda de Ropa,1900,36100
+KHP-011,STORE-005,Gasolinera Rápida,ana.silva@email.com,19000,CLP,completed,2024-12-04 08:30:00,debit_card,TXN-E4F5G6,Combustible en Gasolinera Rápida,950,18050
+KHP-012,STORE-002,Farmacia Salud,carlos.rodriguez@email.com,8500,CLP,completed,2024-12-04 10:20:00,debit_card,TXN-H7I8J9,Compra en Farmacia Salud,425,8075
+KHP-013,STORE-003,Restaurante El Buen Sabor,laura.martinez@email.com,42000,CLP,completed,2024-12-04 19:15:00,credit_card,TXN-K1L2M3,Cena en Restaurante El Buen Sabor,2100,39900
+KHP-014,STORE-001,Supermercado Central,roberto.lopez@email.com,28000,CLP,completed,2024-12-05 11:45:00,debit_card,TXN-N4O5P6,Compra en Supermercado Central,1400,26600
+KHP-015,STORE-004,Tienda de Ropa Moda Express,carmen.torres@email.com,55000,CLP,completed,2024-12-05 13:30:00,credit_card,TXN-Q7R8S9,Compra en Tienda de Ropa,2750,52250
+KHP-016,STORE-005,Gasolinera Rápida,diego.herrera@email.com,24000,CLP,completed,2024-12-05 17:20:00,debit_card,TXN-T1U2V3,Combustible en Gasolinera Rápida,1200,22800
+KHP-017,STORE-002,Farmacia Salud,maria.gonzalez@email.com,9500,CLP,completed,2024-12-06 09:30:00,debit_card,TXN-W4X5Y6,Compra en Farmacia Salud,475,9025
+KHP-018,STORE-003,Restaurante El Buen Sabor,juan.perez@email.com,18000,CLP,completed,2024-12-06 12:45:00,debit_card,TXN-Z7A8B9,Almuerzo en Restaurante El Buen Sabor,900,17100
+KHP-019,STORE-001,Supermercado Central,ana.silva@email.com,36000,CLP,completed,2024-12-06 15:15:00,credit_card,TXN-C1D2E3,Compra en Supermercado Central,1800,34200
+KHP-020,STORE-004,Tienda de Ropa Moda Express,carlos.rodriguez@email.com,42000,CLP,completed,2024-12-06 16:30:00,credit_card,TXN-F4G5H6,Compra en Tienda de Ropa,2100,39900
+KHP-021,STORE-005,Gasolinera Rápida,laura.martinez@email.com,21000,CLP,completed,2024-12-07 07:45:00,debit_card,TXN-I7J8K9,Combustible en Gasolinera Rápida,1050,19950
+KHP-022,STORE-002,Farmacia Salud,roberto.lopez@email.com,11000,CLP,completed,2024-12-07 10:20:00,debit_card,TXN-L1M2N3,Compra en Farmacia Salud,550,10450
+KHP-023,STORE-003,Restaurante El Buen Sabor,carmen.torres@email.com,38000,CLP,completed,2024-12-07 20:15:00,credit_card,TXN-O4P5Q6,Cena en Restaurante El Buen Sabor,1900,36100
+KHP-024,STORE-001,Supermercado Central,diego.herrera@email.com,29000,CLP,completed,2024-12-08 12:30:00,debit_card,TXN-R7S8T9,Compra en Supermercado Central,1450,27550
+KHP-025,STORE-004,Tienda de Ropa Moda Express,maria.gonzalez@email.com,48000,CLP,completed,2024-12-08 14:45:00,credit_card,TXN-U1V2W3,Compra en Tienda de Ropa,2400,45600
+KHP-026,STORE-005,Gasolinera Rápida,juan.perez@email.com,26000,CLP,completed,2024-12-08 18:20:00,debit_card,TXN-X4Y5Z6,Combustible en Gasolinera Rápida,1300,24700
+KHP-027,STORE-002,Farmacia Salud,ana.silva@email.com,7800,CLP,completed,2024-12-09 08:45:00,debit_card,TXN-A7B8C9,Compra en Farmacia Salud,390,7410
+KHP-028,STORE-003,Restaurante El Buen Sabor,carlos.rodriguez@email.com,25000,CLP,completed,2024-12-09 13:15:00,debit_card,TXN-D1E2F3,Almuerzo en Restaurante El Buen Sabor,1250,23750
+KHP-029,STORE-001,Supermercado Central,laura.martinez@email.com,34000,CLP,completed,2024-12-09 16:30:00,credit_card,TXN-G4H5I6,Compra en Supermercado Central,1700,32300
+KHP-030,STORE-004,Tienda de Ropa Moda Express,roberto.lopez@email.com,52000,CLP,completed,2024-12-09 17:45:00,credit_card,TXN-J7K8L9,Compra en Tienda de Ropa,2600,49400 
