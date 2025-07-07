@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_04_193001) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_07_193738) do
   create_table "customers", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -21,6 +21,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_04_193001) do
     t.datetime "updated_at", null: false
     t.index ["document_number"], name: "index_customers_on_document_number", unique: true
     t.index ["email"], name: "index_customers_on_email", unique: true
+  end
+
+  create_table "sales", force: :cascade do |t|
+    t.integer "store_id", null: false
+    t.integer "customer_id", null: false
+    t.string "sale_number", null: false
+    t.decimal "total_amount", precision: 10, scale: 2, default: "0.0", null: false
+    t.datetime "sale_date", null: false
+    t.string "status", default: "pending", null: false
+    t.text "description"
+    t.json "metadata"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_sales_on_customer_id"
+    t.index ["sale_date"], name: "index_sales_on_sale_date"
+    t.index ["sale_number"], name: "index_sales_on_sale_number", unique: true
+    t.index ["status"], name: "index_sales_on_status"
+    t.index ["store_id"], name: "index_sales_on_store_id"
   end
 
   create_table "stores", force: :cascade do |t|
@@ -65,6 +83,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_04_193001) do
     t.index ["owner_type", "owner_id"], name: "index_wallets_on_owner"
   end
 
+  add_foreign_key "sales", "customers"
+  add_foreign_key "sales", "stores"
   add_foreign_key "transactions", "customers"
   add_foreign_key "transactions", "stores"
   add_foreign_key "transactions", "wallets"

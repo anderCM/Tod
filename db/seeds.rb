@@ -167,34 +167,10 @@ end
 
 puts "✅ #{Transaction.where(transaction_type: "deposit").count} depósitos creados"
 
-puts "💰 Creando transacciones de ejemplo..."
+puts "💰 Creando transacciones adicionales (fallidas y pendientes)..."
 
 Store.all.each do |store|
-  store_wallet = store.wallets.first
-
-  Customer.all.sample(rand(3..6)).each do |customer|
-    customer_wallet = customer.wallets.first
-    amount = rand(5000..30000)
-
-    next if customer_wallet.balance < amount
-
-    Transaction.create!(
-      amount: amount,
-      transaction_type: "payment",
-      description: "Pago por compra en #{store.name}",
-      reference: "TXN-#{SecureRandom.hex(6).upcase}",
-      status: "completed",
-      wallet: customer_wallet,
-      store: store,
-      customer: customer,
-      transaction_date: rand(30.days.ago..Time.current),
-    )
-
-    customer_wallet.update!(balance: customer_wallet.balance - amount)
-    store_wallet.update!(balance: store_wallet.balance + amount)
-  end
-
-  rand(1..3).times do
+  rand(1..2).times do
     customer = Customer.all.sample
     customer_wallet = customer.wallets.first
 
@@ -253,11 +229,58 @@ end
 
 puts "✅ #{Transaction.count} transacciones creadas"
 
+puts "🛒 Creando ventas y transacciones correlacionadas..."
+
+Store.all.each do |store|
+  store_wallet = store.wallets.first
+  
+  Customer.all.sample(rand(2..4)).each do |customer|
+    customer_wallet = customer.wallets.first
+    
+    # Crear venta
+    sale_amount = rand(5000..30000)
+    sale_date = rand(30.days.ago..Time.current)
+    
+    sale = Sale.create!(
+      store: store,
+      customer: customer,
+      total_amount: sale_amount,
+      sale_date: sale_date,
+      status: "completed",
+      description: "Venta en #{store.name}"
+    )
+    
+    # Verificar que el cliente tenga suficiente balance
+    next if customer_wallet.balance < sale_amount
+    
+    # Crear transacción de pago correspondiente
+    Transaction.create!(
+      amount: sale_amount,
+      transaction_type: "payment",
+      description: "Pago por venta #{sale.sale_number} en #{store.name}",
+      reference: "TXN-#{SecureRandom.hex(6).upcase}",
+      status: "completed",
+      wallet: customer_wallet,
+      store: store,
+      customer: customer,
+      transaction_date: sale_date,
+    )
+    
+    # Actualizar balances
+    customer_wallet.update!(balance: customer_wallet.balance - sale_amount)
+    store_wallet.update!(balance: store_wallet.balance + sale_amount)
+  end
+end
+
+puts "✅ #{Sale.count} ventas creadas"
+puts "✅ #{Transaction.where(transaction_type: "payment").count} transacciones de pago creadas"
+
 puts "\n📊 RESUMEN DE DATOS CREADOS:"
 puts "   • Tiendas: #{Store.count}"
 puts "   • Clientes: #{Customer.count}"
 puts "   • Billeteras: #{Wallet.count}"
 puts "   • Transacciones: #{Transaction.count}"
+puts "   • Ventas: #{Sale.count}"
 puts "   • Depósitos: #{Transaction.where(transaction_type: "deposit").count}"
 puts "   • Pagos: #{Transaction.where(transaction_type: "payment").count}"
 puts "   • Reembolsos: #{Transaction.where(transaction_type: "refund").count}"
