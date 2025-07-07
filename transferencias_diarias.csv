@@ -1,0 +1,36 @@
+fecha_transferencia,tienda_id,tienda_nombre,tienda_tax_id,total_ventas_dia,cantidad_transacciones,monto_transferencia,referencia_transferencia,estado_transferencia,observaciones
+2024-12-01,1,Supermercado Central,12345678-9,125000,4,125000,TRF-20241201-001,completed,Transferencia por ventas del día
+2024-12-01,2,Farmacia Salud,23456789-0,45000,2,45000,TRF-20241201-002,completed,Transferencia por ventas del día
+2024-12-01,3,Restaurante El Buen Sabor,34567890-1,78000,3,78000,TRF-20241201-003,completed,Transferencia por ventas del día
+2024-12-01,4,Tienda de Ropa Moda Express,45678901-2,95000,2,95000,TRF-20241201-004,completed,Transferencia por ventas del día
+2024-12-01,5,Gasolinera Rápida,56789012-3,120000,3,120000,TRF-20241201-005,completed,Transferencia por ventas del día
+2024-12-02,1,Supermercado Central,12345678-9,98000,3,98000,TRF-20241202-001,completed,Transferencia por ventas del día
+2024-12-02,2,Farmacia Salud,23456789-0,67000,2,67000,TRF-20241202-002,completed,Transferencia por ventas del día
+2024-12-02,3,Restaurante El Buen Sabor,34567890-1,89000,3,89000,TRF-20241202-003,completed,Transferencia por ventas del día
+2024-12-02,4,Tienda de Ropa Moda Express,45678901-2,112000,2,112000,TRF-20241202-004,completed,Transferencia por ventas del día
+2024-12-02,5,Gasolinera Rápida,56789012-3,156000,4,156000,TRF-20241202-005,completed,Transferencia por ventas del día
+2024-12-03,1,Supermercado Central,12345678-9,145000,4,145000,TRF-20241203-001,completed,Transferencia por ventas del día
+2024-12-03,2,Farmacia Salud,23456789-0,52000,2,52000,TRF-20241203-002,completed,Transferencia por ventas del día
+2024-12-03,3,Restaurante El Buen Sabor,34567890-1,103000,3,103000,TRF-20241203-003,completed,Transferencia por ventas del día
+2024-12-03,4,Tienda de Ropa Moda Express,45678901-2,88000,2,88000,TRF-20241203-004,completed,Transferencia por ventas del día
+2024-12-03,5,Gasolinera Rápida,56789012-3,134000,3,134000,TRF-20241203-005,completed,Transferencia por ventas del día
+2024-12-04,1,Supermercado Central,12345678-9,167000,5,167000,TRF-20241204-001,completed,Transferencia por ventas del día
+2024-12-04,2,Farmacia Salud,23456789-0,78000,3,78000,TRF-20241204-002,completed,Transferencia por ventas del día
+2024-12-04,3,Restaurante El Buen Sabor,34567890-1,92000,3,92000,TRF-20241204-003,completed,Transferencia por ventas del día
+2024-12-04,4,Tienda de Ropa Moda Express,45678901-2,105000,2,105000,TRF-20241204-004,completed,Transferencia por ventas del día
+2024-12-04,5,Gasolinera Rápida,56789012-3,142000,3,142000,TRF-20241204-005,completed,Transferencia por ventas del día
+2024-12-05,1,Supermercado Central,12345678-9,138000,4,138000,TRF-20241205-001,completed,Transferencia por ventas del día
+2024-12-05,2,Farmacia Salud,23456789-0,61000,2,61000,TRF-20241205-002,completed,Transferencia por ventas del día
+2024-12-05,3,Restaurante El Buen Sabor,34567890-1,85000,3,85000,TRF-20241205-003,completed,Transferencia por ventas del día
+2024-12-05,4,Tienda de Ropa Moda Express,45678901-2,98000,2,98000,TRF-20241205-004,completed,Transferencia por ventas del día
+2024-12-05,5,Gasolinera Rápida,56789012-3,128000,3,128000,TRF-20241205-005,completed,Transferencia por ventas del día
+2024-12-06,1,Supermercado Central,12345678-9,156000,5,156000,TRF-20241206-001,completed,Transferencia por ventas del día
+2024-12-06,2,Farmacia Salud,23456789-0,72000,2,72000,TRF-20241206-002,completed,Transferencia por ventas del día
+2024-12-06,3,Restaurante El Buen Sabor,34567890-1,97000,3,97000,TRF-20241206-003,completed,Transferencia por ventas del día
+2024-12-06,4,Tienda de Ropa Moda Express,45678901-2,115000,2,115000,TRF-20241206-004,completed,Transferencia por ventas del día
+2024-12-06,5,Gasolinera Rápida,56789012-3,148000,4,148000,TRF-20241206-005,completed,Transferencia por ventas del día
+2024-12-07,1,Supermercado Central,12345678-9,178000,5,178000,TRF-20241207-001,completed,Transferencia por ventas del día
+2024-12-07,2,Farmacia Salud,23456789-0,83000,3,83000,TRF-20241207-002,completed,Transferencia por ventas del día
+2024-12-07,3,Restaurante El Buen Sabor,34567890-1,108000,3,108000,TRF-20241207-003,completed,Transferencia por ventas del día
+2024-12-07,4,Tienda de Ropa Moda Express,45678901-2,125000,2,125000,TRF-20241207-004,completed,Transferencia por ventas del día
+2024-12-07,5,Gasolinera Rápida,56789012-3,162000,4,162000,TRF-20241207-005,completed,Transferencia por ventas del día 
