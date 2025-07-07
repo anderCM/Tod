@@ -1,12 +1,7 @@
 # frozen_string_literal: true
 
-# Datos de prueba para el sistema de conciliación
-# Este archivo crea tiendas, clientes, billeteras y transacciones de ejemplo
-# para que el desarrollador pueda implementar el proceso de conciliación
-
 puts "🌱 Creando datos de prueba para el sistema de conciliación..."
 
-# Crear tiendas
 puts "📦 Creando tiendas..."
 stores = [
   {
@@ -62,7 +57,6 @@ end
 
 puts "✅ #{Store.count} tiendas creadas"
 
-# Crear clientes
 puts "👥 Creando clientes..."
 customers = [
   {
@@ -129,7 +123,6 @@ end
 
 puts "✅ #{Customer.count} clientes creados"
 
-# Crear billeteras para tiendas
 puts "💼 Creando billeteras de tiendas..."
 Store.all.each do |store|
   Wallet.create!(
@@ -140,11 +133,10 @@ Store.all.each do |store|
   )
 end
 
-# Crear billeteras para clientes
 puts "💼 Creando billeteras de clientes..."
 Customer.all.each do |customer|
   Wallet.create!(
-    balance: 0, # Empezar con balance 0
+    balance: 0,
     owner: customer,
     wallet_type: "customer",
     status: "active",
@@ -153,13 +145,11 @@ end
 
 puts "✅ #{Wallet.count} billeteras creadas"
 
-# Crear depósitos iniciales a las billeteras de clientes
 puts "💰 Creando depósitos iniciales..."
 Customer.all.each do |customer|
   customer_wallet = customer.wallets.first
-  deposit_amount = rand(300000..1000000) # Depósitos entre $300k y $1M
+  deposit_amount = rand(300000..1000000)
 
-  # Transacción de depósito
   Transaction.create!(
     amount: deposit_amount,
     transaction_type: "deposit",
@@ -167,33 +157,27 @@ Customer.all.each do |customer|
     reference: "DEP-#{SecureRandom.hex(6).upcase}",
     status: "completed",
     wallet: customer_wallet,
-    store: Store.all.sample, # Asignar a una tienda aleatoria
+    store: Store.all.sample,
     customer: customer,
-    transaction_date: rand(60.days.ago..30.days.ago), # Depósitos hace 30-60 días
+    transaction_date: rand(60.days.ago..30.days.ago),
   )
 
-  # Actualizar balance
   customer_wallet.update!(balance: deposit_amount)
 end
 
 puts "✅ #{Transaction.where(transaction_type: "deposit").count} depósitos creados"
 
-# Crear transacciones de ejemplo
 puts "💰 Creando transacciones de ejemplo..."
 
-# Crear transacciones para cada tienda
 Store.all.each do |store|
   store_wallet = store.wallets.first
 
-  # Transacciones de pago (clientes pagando a tiendas)
   Customer.all.sample(rand(3..6)).each do |customer|
     customer_wallet = customer.wallets.first
-    amount = rand(5000..30000) # Montos más pequeños
+    amount = rand(5000..30000)
 
-    # Verificar que el cliente tenga suficiente balance
     next if customer_wallet.balance < amount
 
-    # Transacción de pago
     Transaction.create!(
       amount: amount,
       transaction_type: "payment",
@@ -206,12 +190,10 @@ Store.all.each do |store|
       transaction_date: rand(30.days.ago..Time.current),
     )
 
-    # Actualizar balances
     customer_wallet.update!(balance: customer_wallet.balance - amount)
     store_wallet.update!(balance: store_wallet.balance + amount)
   end
 
-  # Algunas transacciones fallidas
   rand(1..3).times do
     customer = Customer.all.sample
     customer_wallet = customer.wallets.first
@@ -229,13 +211,12 @@ Store.all.each do |store|
     )
   end
 
-  # Algunas transacciones pendientes
   rand(1..2).times do
     customer = Customer.all.sample
     customer_wallet = customer.wallets.first
 
     Transaction.create!(
-      amount: rand(5000..20000), # Montos más pequeños
+      amount: rand(5000..20000),
       transaction_type: "payment",
       description: "Pago pendiente en #{store.name}",
       reference: "TXN-#{SecureRandom.hex(6).upcase}",
@@ -248,12 +229,11 @@ Store.all.each do |store|
   end
 end
 
-# Crear algunas transacciones de reembolso
 puts "🔄 Creando transacciones de reembolso..."
-completed_transactions = Transaction.where(status: "completed", transaction_type: "payment").sample(3) # Solo de pagos
+completed_transactions = Transaction.where(status: "completed", transaction_type: "payment").sample(3)
 
 completed_transactions.each do |original_transaction|
-  refund_amount = original_transaction.amount * 0.3 # Reembolso más pequeño (30%)
+  refund_amount = original_transaction.amount * 0.3
 
   Transaction.create!(
     amount: refund_amount,
@@ -267,14 +247,12 @@ completed_transactions.each do |original_transaction|
     transaction_date: rand(original_transaction.transaction_date..Time.current),
   )
 
-  # Actualizar balances
   original_transaction.wallet.update!(balance: original_transaction.wallet.balance + refund_amount)
   original_transaction.store.wallets.first.update!(balance: original_transaction.store.wallets.first.balance - refund_amount)
 end
 
 puts "✅ #{Transaction.count} transacciones creadas"
 
-# Mostrar resumen final
 puts "\n📊 RESUMEN DE DATOS CREADOS:"
 puts "   • Tiendas: #{Store.count}"
 puts "   • Clientes: #{Customer.count}"
@@ -283,5 +261,3 @@ puts "   • Transacciones: #{Transaction.count}"
 puts "   • Depósitos: #{Transaction.where(transaction_type: "deposit").count}"
 puts "   • Pagos: #{Transaction.where(transaction_type: "payment").count}"
 puts "   • Reembolsos: #{Transaction.where(transaction_type: "refund").count}"
-puts "\n💡 El desarrollador ahora puede implementar el proceso de conciliación"
-puts "   usando estos datos de prueba como base."

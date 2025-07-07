@@ -5,38 +5,26 @@ plugins:
   - rubocop-rails
   - rubocop-performance
 
-# Archivos que NO necesitan pasar por RuboCop
 AllCops:
   Exclude:
-    # Migraciones de base de datos
     - 'db/migrate/*'
     - 'db/schema.rb'
     - 'db/seeds.rb'
-    
-    # Archivos de configuración
     - 'config/**/*'
     - 'config.ru'
     - 'Gemfile'
     - 'Gemfile.lock'
     - 'Rakefile'
-    
-    # Archivos de assets y frontend
     - 'app/assets/**/*'
     - 'app/javascript/**/*'
     - 'vendor/**/*'
     - 'public/**/*'
-    
-    # Archivos de test y fixtures
     - 'test/fixtures/**/*'
     - 'test/test_helper.rb'
-    
-    # Archivos temporales y de sistema
     - 'tmp/**/*'
     - 'log/**/*'
     - 'storage/**/*'
     - 'node_modules/**/*'
-    
-    # Archivos específicos del proyecto
     - 'khipu_transactions.csv'
     - 'CONCILIACION_GUIDE.md'
     - 'README.md'

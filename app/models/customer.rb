@@ -1,24 +1,20 @@
 # frozen_string_literal: true
 
 class Customer < ApplicationRecord
-  # Relaciones
   has_many :wallets, as: :owner, dependent: :destroy
   has_many :transactions, dependent: :destroy
 
-  # Validaciones
   validates :name, presence: true, length: { minimum: 2, maximum: 100 }
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :phone, presence: true, format: { with: /\A\+56\s?\d{1,2}\s?\d{4}\s?\d{4}\z/, message: "debe tener formato +56 X XXXX XXXX" }
   validates :document_number, presence: true, uniqueness: true, format: { with: /\A\d{7,8}-[0-9kK]\z/, message: "debe tener formato de RUT chileno sin puntos (12345678-9)" }
   validates :status, presence: true, inclusion: { in: ["active", "inactive", "suspended"] }
 
-  # Scopes útiles para conciliación
   scope :active, -> { where(status: "active") }
   scope :with_transactions, -> { joins(:transactions).distinct }
   scope :by_name, ->(name) { where("name ILIKE ?", "%#{name}%") }
   scope :by_document, ->(document) { where("document_number ILIKE ?", "%#{document}%") }
 
-  # Métodos para conciliación
   def total_transactions_amount(start_date = nil, end_date = nil)
     query = transactions.where(status: "completed")
     query = query.where(transaction_date: start_date..end_date) if start_date && end_date
@@ -37,12 +33,10 @@ class Customer < ApplicationRecord
     wallets.first&.balance || 0
   end
 
-  # Método para obtener transacciones por período (útil para conciliación)
   def transactions_in_period(start_date, end_date)
     transactions.where(transaction_date: start_date..end_date)
   end
 
-  # Método para obtener resumen de transacciones (útil para conciliación)
   def transaction_summary(start_date = nil, end_date = nil)
     query = transactions
     query = query.where(transaction_date: start_date..end_date) if start_date && end_date
@@ -57,14 +51,12 @@ class Customer < ApplicationRecord
     }
   end
 
-  # Método para obtener transacciones por tipo (útil para conciliación)
   def transactions_by_type(transaction_type, start_date = nil, end_date = nil)
     query = transactions.where(transaction_type: transaction_type)
     query = query.where(transaction_date: start_date..end_date) if start_date && end_date
     query
   end
 
-  # Método para obtener transacciones con tiendas específicas (útil para conciliación)
   def transactions_with_store(store, start_date = nil, end_date = nil)
     query = transactions.where(store: store)
     query = query.where(transaction_date: start_date..end_date) if start_date && end_date

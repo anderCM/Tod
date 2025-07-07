@@ -3,25 +3,20 @@
 class StoresController < ApplicationController
   before_action :set_store, only: [:show, :edit, :update, :destroy, :transactions, :summary]
 
-  # GET /stores
   def index
     @stores = Store.all
   end
 
-  # GET /stores/1
   def show
   end
 
-  # GET /stores/new
   def new
     @store = Store.new
   end
 
-  # GET /stores/1/edit
   def edit
   end
 
-  # POST /stores
   def create
     @store = Store.new(store_params)
 
@@ -32,7 +27,6 @@ class StoresController < ApplicationController
     end
   end
 
-  # PATCH/PUT /stores/1
   def update
     if @store.update(store_params)
       redirect_to(@store, notice: "Tienda actualizada exitosamente.")
@@ -41,19 +35,16 @@ class StoresController < ApplicationController
     end
   end
 
-  # DELETE /stores/1
   def destroy
     @store.destroy
     redirect_to(stores_url, notice: "Tienda eliminada exitosamente.")
   end
 
-  # GET /stores/1/transactions
   def transactions
     @transactions = @store.transactions.includes(:customer, :wallet)
       .order(transaction_date: :desc)
       .page(params[:page])
 
-    # Filtros para conciliación
     @transactions = @transactions.where(status: params[:status]) if params[:status].present?
     @transactions = @transactions.where(transaction_type: params[:transaction_type]) if params[:transaction_type].present?
 
@@ -62,7 +53,6 @@ class StoresController < ApplicationController
     end
   end
 
-  # GET /stores/1/summary
   def summary
     start_date = params[:start_date]&.to_date || 30.days.ago.to_date
     end_date = params[:end_date]&.to_date || Date.current
@@ -70,7 +60,6 @@ class StoresController < ApplicationController
     @summary = @store.transaction_summary(start_date, end_date)
     @transactions = @store.transactions_in_period(start_date, end_date)
 
-    # Datos adicionales para conciliación
     @wallet_balance = @store.wallet_balance
     @pending_amount = @store.transactions.where(status: "pending").sum(:amount)
     @failed_amount = @store.transactions.where(status: "failed").sum(:amount)

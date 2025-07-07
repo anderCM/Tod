@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
 class Transaction < ApplicationRecord
-  # Relaciones
   belongs_to :wallet
   belongs_to :store
   belongs_to :customer
 
-  # Validaciones
   validates :amount, presence: true, numericality: { greater_than: 0 }
   validates :transaction_type, presence: true, inclusion: { in: ["payment", "refund", "fee", "deposit"] }
   validates :description, presence: true, length: { minimum: 5, maximum: 500 }
@@ -17,11 +15,9 @@ class Transaction < ApplicationRecord
   validates :customer, presence: true
   validates :store, presence: true
 
-  # Validaciones condicionales
   validate :amount_validation_for_refund
   validate :store_required_for_payment_and_refund
 
-  # Scopes útiles para conciliación
   scope :completed, -> { where(status: "completed") }
   scope :pending, -> { where(status: "pending") }
   scope :failed, -> { where(status: "failed") }
@@ -31,11 +27,9 @@ class Transaction < ApplicationRecord
   scope :in_period, ->(start_date, end_date) { where(transaction_date: start_date..end_date) }
   scope :recent, -> { where("transaction_date >= ?", 30.days.ago) }
 
-  # Callbacks
   before_validation :generate_reference, on: :create
   before_validation :set_transaction_date, on: :create
 
-  # Métodos para conciliación
   class << self
     def total_amount_by_period(start_date, end_date, status = "completed")
       where(status: status, transaction_date: start_date..end_date).sum(:amount)
@@ -61,9 +55,7 @@ class Transaction < ApplicationRecord
     end
   end
 
-  # Método para encontrar transacciones relacionadas (útil para conciliación)
   def related_transactions
-    # Busca transacciones con el mismo monto, fecha similar y misma tienda/cliente
     related = Transaction.where(
       amount: amount,
       store: store,
@@ -71,13 +63,11 @@ class Transaction < ApplicationRecord
       transaction_type: transaction_type,
     ).where.not(id: id)
 
-    # Filtra por fecha similar (mismo día)
     related.where(
       "DATE(transaction_date) = DATE(?)", transaction_date
     )
   end
 
-  # Método para verificar si la transacción puede ser conciliada
   def can_be_reconciled?
     status == "completed" &&
       transaction_date.present? &&
@@ -85,7 +75,6 @@ class Transaction < ApplicationRecord
       reference.present?
   end
 
-  # Método para obtener información de conciliación
   def reconciliation_info
     {
       id: id,
@@ -103,10 +92,7 @@ class Transaction < ApplicationRecord
     }
   end
 
-  # Método para marcar como conciliada (cuando se implemente la conciliación)
   def mark_as_reconciled!
-    # Este método se puede usar cuando se implemente el proceso de conciliación
-    # Por ahora solo actualiza el estado si es necesario
     update!(status: "completed") if status == "pending"
   end
 
@@ -138,7 +124,6 @@ class Transaction < ApplicationRecord
 
   def amount_validation_for_refund
     if transaction_type == "refund" && store.present?
-      # Verificar que no se reembolse más de lo que se pagó
       total_paid = Transaction.where(
         store: store,
         customer: customer,
