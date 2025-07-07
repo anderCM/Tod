@@ -25,7 +25,6 @@ AllCops:
     - 'log/**/*'
     - 'storage/**/*'
     - 'node_modules/**/*'
-    - 'khipu_transactions.csv'
     - 'CONCILIACION_GUIDE.md'
     - 'README.md'
     - 'Dockerfile'
