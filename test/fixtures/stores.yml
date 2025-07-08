@@ -1,19 +1,19 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  description: MyText
-  status: MyString
-  tax_id: MyString
-  address: MyText
-  phone: MyString
-  email: MyString
+  name: store1
+  description: store1
+  status: active
+  tax_id: 12345678-9
+  address: store1
+  phone: +56912345678
+  email: store1@example.com
 
 two:
-  name: MyString
-  description: MyText
-  status: MyString
-  tax_id: MyString
-  address: MyText
-  phone: MyString
-  email: MyString
+  name: store2
+  description: store2
+  status: active
+  tax_id: 87654321-0
+  address: store2
+  phone: +56987654321
+  email: store2@example.com

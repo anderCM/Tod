@@ -2,20 +2,20 @@
 
 one:
   amount: 9.99
-  transaction_type: MyString
-  description: MyText
-  reference: MyString
-  status: MyString
+  transaction_type: sale
+  description: sale1
+  reference: 1
+  status: completed
   wallet: one
   store: one
   customer: one
 
 two:
   amount: 9.99
-  transaction_type: MyString
-  description: MyText
-  reference: MyString
-  status: MyString
+  transaction_type: sale
+  description: sale2
+  reference: 2
+  status: completed
   wallet: two
   store: two
   customer: two

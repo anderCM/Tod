@@ -12,7 +12,7 @@ class Store < ApplicationRecord
 
   scope :active, -> { where(status: "active") }
   scope :with_transactions, -> { joins(:transactions).distinct }
-  scope :by_name, ->(name) { where("name ILIKE ?", "%#{name}%") }
+  scope :by_name, ->(name) { where("LOWER(name) LIKE ?", "%#{name.downcase}%") }
 
   def total_transactions_amount(start_date = nil, end_date = nil)
     query = transactions.where(status: "completed")
