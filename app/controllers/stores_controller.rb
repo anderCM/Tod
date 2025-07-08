@@ -43,7 +43,6 @@ class StoresController < ApplicationController
   def transactions
     @transactions = @store.transactions.includes(:customer, :wallet)
       .order(transaction_date: :desc)
-      .page(params[:page])
 
     @transactions = @transactions.where(status: params[:status]) if params[:status].present?
     @transactions = @transactions.where(transaction_type: params[:transaction_type]) if params[:transaction_type].present?
