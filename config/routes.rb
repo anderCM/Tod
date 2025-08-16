@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   get "stores/index"
   get "stores/show"
   get "stores/new"
-  get "stores/create"
+  post "stores/create"
   get "stores/edit"
   get "stores/update"
   get "stores/destroy"

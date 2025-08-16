@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class ApplicationController < ActionController::Base
-  allow_browser versions: :modern
+class ApplicationController < ActionController::API
+
 end

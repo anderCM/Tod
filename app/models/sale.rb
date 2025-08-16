@@ -5,15 +5,17 @@ class Sale < ApplicationRecord
   belongs_to :customer
   has_one :payment_transaction, class_name: "Transaction", dependent: :destroy
 
+  enum :status, {
+    completed: 'completed',
+    pending: 'pending',
+    cancelled: 'cancelled',
+    refunded: 'refunded'
+  }
+
   validates :sale_number, presence: true, uniqueness: true
   validates :total_amount, presence: true, numericality: { greater_than: 0 }
   validates :sale_date, presence: true
-  validates :status, presence: true, inclusion: { in: ["pending", "completed", "cancelled", "refunded"] }
 
-  scope :completed, -> { where(status: "completed") }
-  scope :pending, -> { where(status: "pending") }
-  scope :cancelled, -> { where(status: "cancelled") }
-  scope :refunded, -> { where(status: "refunded") }
   scope :by_store, ->(store) { where(store: store) }
   scope :by_customer, ->(customer) { where(customer: customer) }
   scope :in_period, ->(start_date, end_date) { where(sale_date: start_date..end_date) }
@@ -73,12 +75,12 @@ class Sale < ApplicationRecord
 
       {
         total_count: sales.count,
-        completed_count: sales.where(status: "completed").count,
-        pending_count: sales.where(status: "pending").count,
-        cancelled_count: sales.where(status: "cancelled").count,
-        refunded_count: sales.where(status: "refunded").count,
-        total_amount: sales.where(status: "completed").sum(:total_amount),
-        pending_amount: sales.where(status: "pending").sum(:total_amount),
+        completed_count: sales.completed.count,
+        pending_count: sales.pending.count,
+        cancelled_count: sales.cancelled.count,
+        refunded_count: sales.refunded.count,
+        total_amount: sales.completed.sum(:total_amount),
+        pending_amount: sales.pending.sum(:total_amount),
         by_status: sales.group(:status).count,
       }
     end

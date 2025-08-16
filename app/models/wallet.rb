@@ -4,12 +4,16 @@ class Wallet < ApplicationRecord
   belongs_to :owner, polymorphic: true
   has_many :transactions, dependent: :destroy
 
+  enum :status, {
+    active: 'active',
+    inactive: 'inactive',
+    suspended: 'suspended'
+  }
+
   validates :balance, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :wallet_type, presence: true, inclusion: { in: ["store", "customer"] }
-  validates :status, presence: true, inclusion: { in: ["active", "inactive", "suspended"] }
   validates :owner, presence: true
 
-  scope :active, -> { where(status: "active") }
   scope :store_wallets, -> { where(wallet_type: "store") }
   scope :customer_wallets, -> { where(wallet_type: "customer") }
   scope :with_balance, -> { where("balance > 0") }
@@ -17,7 +21,7 @@ class Wallet < ApplicationRecord
   def total_incoming_amount(start_date = nil, end_date = nil)
     query = transactions.where(transaction_type: ["payment", "transfer"])
     query = query.where(transaction_date: start_date..end_date) if start_date && end_date
-    query.where(status: "completed").sum(:amount)
+    query.completed.sum(:amount)
   end
 
   def total_outgoing_amount(start_date = nil, end_date = nil)
@@ -28,15 +32,15 @@ class Wallet < ApplicationRecord
     end
 
     query = query.where(transaction_date: start_date..end_date) if start_date && end_date
-    query.where(status: "completed").sum(:amount)
+    query.completed.sum(:amount)
   end
 
   def pending_transactions_amount
-    transactions.where(status: "pending").sum(:amount)
+    transactions.pending.sum(:amount)
   end
 
   def failed_transactions_amount
-    transactions.where(status: "failed").sum(:amount)
+    transactions.failed.sum(:amount)
   end
 
   def transactions_count(start_date = nil, end_date = nil)
@@ -55,11 +59,11 @@ class Wallet < ApplicationRecord
 
     {
       total_count: query.count,
-      completed_count: query.where(status: "completed").count,
-      pending_count: query.where(status: "pending").count,
-      failed_count: query.where(status: "failed").count,
-      total_amount: query.where(status: "completed").sum(:amount),
-      pending_amount: query.where(status: "pending").sum(:amount),
+      completed_count: query.completed.count,
+      pending_count: query.pending.count,
+      failed_count: query.failed.count,
+      total_amount: query.completed.sum(:amount),
+      pending_amount: query.pending.sum(:amount),
       incoming_amount: total_incoming_amount(start_date, end_date),
       outgoing_amount: total_outgoing_amount(start_date, end_date),
     }

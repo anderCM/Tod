@@ -5,11 +5,22 @@ class Transaction < ApplicationRecord
   belongs_to :store
   belongs_to :customer
 
+  enum :status, {
+    completed: 'completed',
+    pending: 'pending',
+    failed: 'failed'
+  }
+
+  enum :transaction_type, {
+    payment: 'payment',
+    refund: 'refund',
+    fee: 'fee',
+    deposit: 'deposit'
+  }
+
   validates :amount, presence: true, numericality: { greater_than: 0 }
-  validates :transaction_type, presence: true, inclusion: { in: ["payment", "refund", "fee", "deposit"] }
   validates :description, presence: true, length: { minimum: 5, maximum: 500 }
   validates :reference, presence: true, uniqueness: true
-  validates :status, presence: true, inclusion: { in: ["completed", "pending", "failed"] }
   validates :transaction_date, presence: true
   validates :wallet, presence: true
   validates :customer, presence: true
@@ -18,9 +29,6 @@ class Transaction < ApplicationRecord
   validate :amount_validation_for_refund
   validate :store_required_for_payment_and_refund
 
-  scope :completed, -> { where(status: "completed") }
-  scope :pending, -> { where(status: "pending") }
-  scope :failed, -> { where(status: "failed") }
   scope :by_type, ->(type) { where(transaction_type: type) }
   scope :by_store, ->(store) { where(store: store) }
   scope :by_customer, ->(customer) { where(customer: customer) }
@@ -44,11 +52,11 @@ class Transaction < ApplicationRecord
 
       {
         total_count: transactions.count,
-        completed_count: transactions.where(status: "completed").count,
-        pending_count: transactions.where(status: "pending").count,
-        failed_count: transactions.where(status: "failed").count,
-        total_amount: transactions.where(status: "completed").sum(:amount),
-        pending_amount: transactions.where(status: "pending").sum(:amount),
+        completed_count: transactions.completed.count,
+        pending_count: transactions.pending.count,
+        failed_count: transactions.failed.count,
+        total_amount: transactions.completed.sum(:amount),
+        pending_amount: transactions.pending.sum(:amount),
         by_type: transactions.group(:transaction_type).count,
         by_status: transactions.group(:status).count,
       }
@@ -123,24 +131,24 @@ class Transaction < ApplicationRecord
   end
 
   def amount_validation_for_refund
-    if transaction_type == "refund" && store.present?
-      total_paid = Transaction.where(
-        store: store,
-        customer: customer,
-        transaction_type: "payment",
-        status: "completed",
-      ).sum(:amount)
+    return unless transaction_type == "refund" && store.present?
 
-      total_refunded = Transaction.where(
-        store: store,
-        customer: customer,
-        transaction_type: "refund",
-        status: "completed",
-      ).where.not(id: id).sum(:amount)
+    total_paid = Transaction.where(
+      store: store,
+      customer: customer,
+      transaction_type: "payment",
+      status: "completed",
+    ).sum(:amount)
 
-      if (total_refunded + amount) > total_paid
-        errors.add(:amount, "el reembolso no puede exceder el monto total pagado")
-      end
-    end
+    total_refunded = Transaction.where(
+      store: store,
+      customer: customer,
+      transaction_type: "refund",
+      status: "completed",
+    ).where.not(id: id).sum(:amount)
+
+    return unless (total_refunded + amount) > total_paid
+
+    errors.add(:amount, "el reembolso no puede exceder el monto total pagado")
   end
 end
