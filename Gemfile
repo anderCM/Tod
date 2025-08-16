@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 gem "rails", "~> 8.0.2"
 gem "propshaft"
-gem "sqlite3", ">= 2.1"
+gem "pg", "~> 1.5"
 gem "puma", ">= 5.0"
 gem "importmap-rails"
 gem "turbo-rails"
