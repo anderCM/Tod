@@ -5,39 +5,34 @@ class StoresController < ApplicationController
 
   def index
     @stores = Store.all
+    render json: @stores
   end
 
   def show
-  end
-
-  def new
-    @store = Store.new
-  end
-
-  def edit
+    render json: @store
   end
 
   def create
     @store = Store.new(store_params)
 
     if @store.save
-      redirect_to(@store, notice: "Tienda creada exitosamente.")
+      render json: @store, status: :created
     else
-      render(:new, status: :unprocessable_entity)
+      render json: { errors: @store.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def update
     if @store.update(store_params)
-      redirect_to(@store, notice: "Tienda actualizada exitosamente.")
+      render json: @store
     else
-      render(:edit, status: :unprocessable_entity)
+      render json: { errors: @store.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def destroy
     @store.destroy
-    redirect_to(stores_url, notice: "Tienda eliminada exitosamente.")
+    head :no_content
   end
 
   def transactions
@@ -50,6 +45,8 @@ class StoresController < ApplicationController
     if params[:start_date].present? && params[:end_date].present?
       @transactions = @transactions.where(transaction_date: params[:start_date]..params[:end_date])
     end
+
+    render json: @transactions, status: :ok
   end
 
   def summary
@@ -62,6 +59,14 @@ class StoresController < ApplicationController
     @wallet_balance = @store.wallet_balance
     @pending_amount = @store.transactions.where(status: "pending").sum(:amount)
     @failed_amount = @store.transactions.where(status: "failed").sum(:amount)
+    
+    render json: {
+      summary: @summary,
+      transactions: @transactions,
+      wallet_balance: @wallet_balance,
+      pending_amount: @pending_amount,
+      failed_amount: @failed_amount
+    }
   end
 
   private
