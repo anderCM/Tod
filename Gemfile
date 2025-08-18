@@ -33,6 +33,8 @@ gem "kamal", require: false
 
 gem "thruster", require: false
 
+gem 'data_migrate', '~> 11.3'
+
 group :development, :test do
   gem "debug", platforms: [:mri, :windows], require: "debug/prelude"
   gem "brakeman", require: false
