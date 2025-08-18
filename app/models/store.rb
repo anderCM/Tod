@@ -6,6 +6,7 @@ class Store < ApplicationRecord
   has_many :wallets, as: :owner, dependent: :destroy
   has_many :transactions, dependent: :destroy
   has_many :sales, dependent: :destroy
+  has_many :store_reconciliation_rules, dependent: :destroy
 
   enum :status, {
     active: 'active',

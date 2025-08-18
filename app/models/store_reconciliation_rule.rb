@@ -21,6 +21,4 @@ class StoreReconciliationRule < ApplicationRecord
   # Scopes
   scope :active, -> { where(active: true) }
   scope :by_priority, -> { order(:priority) }
-  scope :customized, -> { where(customized: true) }
-  scope :using_defaults, -> { where(customized: false) }
 end

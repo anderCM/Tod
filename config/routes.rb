@@ -9,6 +9,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       # Authentication
       post 'register', to: 'stores#create'
+      get 'reconciliation_rules', to: 'stores#reconciliation_rules'
+      post 'reconciliation_rules', to: 'stores#update_reconciliation_rules'
+
       post 'login', to: 'sessions#create'
       delete 'logout', to: 'sessions#destroy'
 

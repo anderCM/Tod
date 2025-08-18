@@ -4,7 +4,7 @@ module Api
   module V1
     class SalesController < ApplicationController
       before_action :authenticate_store!
-      
+
       # Not necessary to paginate here as we do not have
       # a lot of transactions for every store
       def index

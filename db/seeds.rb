@@ -2,6 +2,7 @@
 
 puts "🌱 Creando datos de prueba para el sistema de conciliación..."
 
+default_password = 'Conectado$25'
 puts "📦 Creando tiendas..."
 stores = [
   {
@@ -12,6 +13,8 @@ stores = [
     address: "Av. Principal 123, Ciudad",
     phone: "+56 2 2345 6789",
     email: "contacto@supercentral.cl",
+    password: default_password,
+    password_confirmation: default_password,
   },
   {
     name: "Farmacia Salud",
@@ -21,6 +24,8 @@ stores = [
     address: "Calle Comercial 456, Ciudad",
     phone: "+56 2 3456 7890",
     email: "info@farmaciasalud.cl",
+    password: default_password,
+    password_confirmation: default_password,
   },
   {
     name: "Restaurante El Buen Sabor",
@@ -30,6 +35,8 @@ stores = [
     address: "Plaza Mayor 789, Ciudad",
     phone: "+56 2 4567 8901",
     email: "reservas@buensabor.cl",
+    password: default_password,
+    password_confirmation: default_password,
   },
   {
     name: "Tienda de Ropa Moda Express",
@@ -39,6 +46,8 @@ stores = [
     address: "Mall Central Local 15, Ciudad",
     phone: "+56 2 5678 9012",
     email: "ventas@modaexpress.cl",
+    password: default_password,
+    password_confirmation: default_password,
   },
   {
     name: "Gasolinera Rápida",
@@ -48,6 +57,8 @@ stores = [
     address: "Autopista Norte Km 25, Ciudad",
     phone: "+56 2 6789 0123",
     email: "admin@gasolinerarapida.cl",
+    password: default_password,
+    password_confirmation: default_password,
   },
 ]
 
@@ -275,6 +286,46 @@ end
 puts "✅ #{Sale.count} ventas creadas"
 puts "✅ #{Transaction.where(transaction_type: "payment").count} transacciones de pago creadas"
 
+reconciliation_rules = [
+  {
+    name: "Match Exacto",
+    description: "Coincidencia exacta de monto y fecha",
+    rule_type: 'exact',
+    default_tolerance_value: 0,
+    priority: 1,
+    active: true,
+  },
+  {
+    name: "Tolerancia por días",
+    description: "Permite días de diferencia en fecha (monto exacto)",
+    rule_type: 'date',
+    default_tolerance_value: 1,
+    priority: 2,
+    active: true,
+  },
+  {
+    name: "Tolerancia porcentual de monto",
+    description: "Permite hasta un porcentaje de diferencia en monto",
+    rule_type: 'percentage',
+    default_tolerance_value: 0.5,
+    priority: 3,
+    active: true,
+  },
+  {
+    name: "Tolerancia de monto fijo",
+    description: "Permite hasta un monto de diferencia",
+    rule_type: 'amount',
+    default_tolerance_value: 100,
+    priority: 4,
+    active: true,
+  }
+]
+
+puts "🔧 Creando reglas de reconciliación..."
+reconciliation_rules.each do |rule_data|
+  ReconciliationRule.create!(rule_data)
+end
+
 puts "\n📊 RESUMEN DE DATOS CREADOS:"
 puts "   • Tiendas: #{Store.count}"
 puts "   • Clientes: #{Customer.count}"
@@ -284,3 +335,4 @@ puts "   • Ventas: #{Sale.count}"
 puts "   • Depósitos: #{Transaction.where(transaction_type: "deposit").count}"
 puts "   • Pagos: #{Transaction.where(transaction_type: "payment").count}"
 puts "   • Reembolsos: #{Transaction.where(transaction_type: "refund").count}"
+puts "   • Reglas: #{ReconciliationRule.count}"
