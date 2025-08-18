@@ -4,7 +4,7 @@ class ReconciliationItem < ApplicationRecord
   # Associations
   belongs_to :reconciliation
   belongs_to :source, polymorphic: true
-  belongs_to :target, polymorphic: true
+  belongs_to :target, polymorphic: true, optional: true
 
   # Enumerations
   enum :match_status, {

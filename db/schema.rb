@@ -54,9 +54,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_17_190244) do
     t.index ["email"], name: "index_customers_on_email", unique: true
   end
 
-  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
-  end
-
   create_table "reconciliation_files", force: :cascade do |t|
     t.bigint "reconciliation_id", null: false
     t.string "file_name", null: false
@@ -181,9 +178,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_17_190244) do
     t.text "description"
     t.string "reference"
     t.string "status"
-    t.integer "wallet_id", null: false
-    t.integer "store_id", null: false
-    t.integer "customer_id", null: false
+    t.bigint "wallet_id", null: false
+    t.bigint "store_id", null: false
+    t.bigint "customer_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "transaction_date"
@@ -196,7 +193,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_17_190244) do
   create_table "wallets", force: :cascade do |t|
     t.decimal "balance"
     t.string "owner_type", null: false
-    t.integer "owner_id", null: false
+    t.bigint "owner_id", null: false
     t.string "wallet_type"
     t.string "status"
     t.datetime "created_at", null: false

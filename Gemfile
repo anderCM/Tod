@@ -34,6 +34,7 @@ gem "kamal", require: false
 gem "thruster", require: false
 
 gem 'data_migrate', '~> 11.3'
+gem 'awesome_print', '~> 1.9', '>= 1.9.2'
 
 group :development, :test do
   gem "debug", platforms: [:mri, :windows], require: "debug/prelude"
@@ -41,6 +42,10 @@ group :development, :test do
 
   gem "rubocop-rails-omakase", require: false
   gem "rubocop-shopify", require: false
+  
+  gem "rspec-rails", "~> 6.1"
+  gem "factory_bot_rails", "~> 6.4"
+  gem "database_cleaner-active_record", "~> 2.1"
 end
 
 group :development do
