@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_07_193738) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_17_013320) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -27,8 +27,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_07_193738) do
   end
 
   create_table "sales", force: :cascade do |t|
-    t.integer "store_id", null: false
-    t.integer "customer_id", null: false
+    t.bigint "store_id", null: false
+    t.bigint "customer_id", null: false
     t.string "sale_number", null: false
     t.decimal "total_amount", precision: 10, scale: 2, default: "0.0", null: false
     t.datetime "sale_date", null: false
@@ -54,6 +54,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_07_193738) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.string "authentication_token"
+    t.index ["authentication_token"], name: "index_stores_on_authentication_token", unique: true
+    t.index ["email"], name: "index_stores_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_stores_on_reset_password_token", unique: true
     t.index ["tax_id"], name: "index_stores_on_tax_id", unique: true
   end
 
