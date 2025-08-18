@@ -1,209 +1,81 @@
-# Sistema de Conciliación - Desafío Técnico
+# Tod API
+![Mr PeanutButter](https://static.wikia.nocookie.net/bojackhorseman/images/4/4b/Mr._Peanutbutter_casual.png/revision/latest?cb=20190314203721)
 
-## 📋 Descripción del Proyecto
 
-Este proyecto es una base para implementar un sistema de **conciliación de transacciones** entre tiendas, clientes y billeteras. El desarrollador debe implementar el proceso de conciliación que permita reconciliar movimientos y detectar inconsistencias, además de crear un **portal web para comercios** donde puedan acceder a sus datos, realizar conciliaciones y descargar reportes.
+A RESTful API developed with Ruby on Rails, providing crypto services using the [CoinGecko API](https://docs.coingecko.com/reference/introduction). This project uses Docker for easier development and deployment.
 
-## 🏗️ Estructura del Sistema
+---
 
-### Modelos Principales
+## Content
 
-- **Store (Tienda)**: Representa los comercios que reciben pagos
-- **Customer (Cliente)**: Representa los usuarios que realizan pagos
-- **Wallet (Billetera)**: Billeteras virtuales para tiendas y clientes
-- **Transaction (Transacción)**: Movimientos de dinero entre billeteras
-- **Sale (Venta)**: Ventas realizadas por las tiendas
+- [Tod API](#tod-api)
+  - [Content](#content)
+  - [Description](#description)
+  - [Characteristics](#characteristics)
+  - [Technologies](#technologies)
+  - [Installation](#installation)
+    - [Previous Requirements](#previous-requirements)
+    - [Steps to Configure this Repo Locally](#steps-to-configure-this-repo-locally)
 
-### Funcionalidades Base Implementadas
+---
 
-✅ **CRUD completo** para tiendas, clientes y transacciones  
-✅ **Billeteras** con balances automáticos  
-✅ **Validaciones** de datos y reglas de negocio  
-✅ **Datos de prueba** realistas y correlacionados  
-✅ **Métodos de consulta** para conciliación  
-✅ **Rutas y controladores** básicos  
-✅ **Modelo Sale** para ventas de tiendas  
-✅ **Datos correlacionados** entre ventas y transacciones  
+## Description
 
-## 🎯 Desafío: Implementar el Proceso de Conciliación
+**Tod API** is a project developed with Ruby on Rails that offers endpoints for merchants, users and transactions 
 
-### Objetivo Principal
-El desarrollador debe implementar un **sistema de conciliación** y un **portal para comercios** que permita:
+---
 
-1. **Reconciliar transacciones** entre diferentes fuentes de datos
-2. **Detectar inconsistencias** en balances y movimientos
-3. **Generar reportes** de conciliación
-4. **Identificar transacciones duplicadas** o faltantes
-5. **Proporcionar acceso web** a los comercios para gestionar sus datos
-6. **Permitir descarga de reportes** en formatos PDF y Excel
+## Características
 
-### Funcionalidades a Implementar
+- **API RESTful:** Built following the best practices of Ruby on Rails.
+- **Documentation:** Uses Swagger to display API documentation.
+- **Tests:** Integrated with RSpec to ensure code quality.
 
-#### 1. Proceso de Conciliación
-- [ ] **Conciliación automática** basada en monto, fecha y referencia
-- [ ] **Conciliación manual** para casos especiales
-- [ ] **Reglas de matching** configurables
-- [ ] **Tolerancia de fechas** para conciliación
+---
 
-#### 2. Detección de Inconsistencias
-- [ ] **Verificación de balances** vs transacciones
-- [ ] **Detección de transacciones duplicadas**
-- [ ] **Identificación de transacciones faltantes**
-- [ ] **Alertas de inconsistencias**
+## Technologies
 
-#### 3. Reportes de Conciliación
-- [ ] **Reporte de conciliación diaria**
-- [ ] **Reporte de inconsistencias**
-- [ ] **Dashboard de conciliación**
-- [ ] **Exportación de reportes**
+- **Backend:** Ruby (3.3.7) and Ruby on Rails (8.0.2)
+- **Containers:** Docker & Docker Compose
+- **Documentation:** Swagger (rswag-api, rswag-ui, rswag-specs)
+- **Tests:** RSpec
+- **Database:** PostgreSQL
 
-#### 4. Portal para Comercios
-- [ ] **Dashboard del comercio** con resumen de ventas y transacciones
-- [ ] **Vista de conciliación** con transacciones emparejadas
-- [ ] **Filtros avanzados** por fecha, cliente, estado
-- [ ] **Acciones masivas** para conciliación
-- [ ] **Historial de conciliaciones**
-- [ ] **Reportes descargables** en PDF/Excel
-- [ ] **Notificaciones** de inconsistencias detectadas
+---
 
-## 🚀 Instalación y Configuración
+## Installation
 
-### Prerrequisitos
-- Ruby 3.2+
-- Rails 8.0+
-- SQLite3
+### Previous Requirements
 
-### Pasos de Instalación
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [VS Code](https://code.visualstudio.com/) or any other IDE
 
-1. **Clonar el repositorio**
-```bash
-git clone <repository-url>
-cd challenge
-```
+### Steps to Configure this Repo Locally
 
-2. **Instalar dependencias**
-```bash
-bundle install
-```
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/anderCM/Tod.git
+   cd Tod
 
-3. **Configurar base de datos**
-```bash
-rails db:create
-rails db:migrate
-```
+2. Set up your own `.env` file or use `.env.example`
+3. Run:
+    ```
+    docker-compose build
+    docker-compose up -d
 
-4. **Cargar datos de prueba**
-```bash
-rails db:seed
-```
+4. Install necessary gems using one of these options:
+  - **4.1** From your local environment: `docker-compose run api bundle install`
+  - **4.2** By connecting to the container:
+      ```
+      docker-compose exec api bash
+      bundle install
+5. Create the DB using one of these options:
+  - **4.1** From your local environment: `docker-compose run api rails db:create`
+  - **4.2** By connecting to the container:
+      ```
+      docker-compose exec api bash
+      rails db:create
+      rails db:seed
 
-5. **Iniciar el servidor**
-```bash
-rails server
-```
-
-6. **Acceder a la aplicación**
-```
-http://localhost:3000
-```
-
-## 📊 Datos de Prueba Disponibles
-
-El sistema incluye datos de prueba realistas y correlacionados:
-
-- **5 Tiendas** con diferentes tipos de negocio
-- **8 Clientes** con datos completos
-- **13 Billeteras** (5 de tiendas + 8 de clientes)
-- **~20+ Ventas** correlacionadas con transacciones
-- **~50+ Transacciones** de diferentes tipos:
-  - Pagos de clientes a tiendas (correlacionados con ventas)
-  - Reembolsos parciales
-  - Transacciones pendientes y fallidas
-- **Archivo CSV** de transferencias diarias para conciliación
-
-## 🔧 Estructura de Datos
-
-### Transacciones Disponibles
-- **payment**: Pagos de clientes a tiendas
-- **refund**: Reembolsos de tiendas a clientes
-- **deposit**: Depósitos iniciales a billeteras
-- **fee**: Comisiones y cargos
-
-### Estados de Ventas
-- **completed**: Venta completada
-- **pending**: Venta pendiente
-- **cancelled**: Venta cancelada
-- **refunded**: Venta reembolsada
-
-### Estados de Transacciones
-- **completed**: Transacción exitosa
-- **pending**: Transacción pendiente
-- **failed**: Transacción fallida
-
-### Tipos de Billeteras
-- **store**: Billeteras de tiendas
-- **customer**: Billeteras de clientes
-
-## 🎯 Criterios de Evaluación
-
-### Funcionalidad (40%)
-- Implementación correcta del proceso de conciliación
-- Detección precisa de inconsistencias
-- Generación de reportes útiles
-
-### Código (30%)
-- Código limpio y bien estructurado
-- Uso de patrones de diseño apropiados
-- Manejo adecuado de errores
-
-### Portal para Comercios (20%)
-- Portal intuitivo y fácil de usar para comercios
-- Dashboard con métricas relevantes
-- Filtros y búsquedas efectivas
-- Visualización clara de datos de conciliación
-- Reportes descargables y funcionales
-
-### Documentación (10%)
-- README actualizado
-- Comentarios en el código
-- Documentación de API si aplica
-
-## 💡 Sugerencias de Implementación
-
-### Enfoque Recomendado
-1. **Analizar los datos existentes** para entender patrones
-2. **Usar el archivo CSV** de transferencias diarias como fuente externa
-3. **Definir reglas de conciliación** claras
-4. **Implementar matching automático** entre ventas y transacciones
-5. **Conciliar con transferencias** del archivo CSV
-6. **Crear el portal para comercios** con dashboard y reportes
-7. **Agregar funcionalidades manuales** después
-8. **Implementar notificaciones** y alertas
-
-### Consideraciones Técnicas
-- Usar **transacciones de base de datos** para consistencia (puedes crear más datos si es necesario)
-- Implementar **background jobs** para procesos pesados
-- Usar **validaciones** para prevenir inconsistencias
-
-### Herramientas Útiles
-- **Sidekiq** para jobs en background
-- **Chartkick** para gráficos y dashboards
-- **Device** para el manejo de las sesiones
-
-## 📝 Notas Importantes
-
-- **Crear un portal específico** para que los comercios puedan acceder a sus datos
-- **Implementar autenticación** para que cada comercio vea solo sus datos
-- **Mantener** las validaciones y relaciones existentes
-- **Usar** los métodos ya implementados cuando sea posible
-- **Documentar** cualquier cambio significativo
-
-## 🆘 Soporte
-
-Para dudas sobre la implementación, revisar:
-- Los métodos ya implementados en los modelos
-- Los datos de prueba en `db/seeds.rb`
-- Las rutas disponibles en `config/routes.rb`
-- El archivo `transferencias_diarias.csv` para conciliación
-
-¡Buena suerte con el desafío! 🚀
+6. Visit http://localhost:3000 or use any PORT you configured in `.env` file
