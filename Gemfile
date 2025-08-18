@@ -12,6 +12,8 @@ gem "stimulus-rails"
 gem "jbuilder"
 
 gem "bcrypt", "~> 3.1.7"
+gem "devise", "~> 4.9"
+gem "active_model_serializers", "~> 0.10.0"
 
 gem "enumerize"
 
@@ -30,6 +32,8 @@ gem "bootsnap", require: false
 gem "kamal", require: false
 
 gem "thruster", require: false
+
+gem 'data_migrate', '~> 11.3'
 
 group :development, :test do
   gem "debug", platforms: [:mri, :windows], require: "debug/prelude"

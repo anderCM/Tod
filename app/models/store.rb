@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 class Store < ApplicationRecord
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
   has_many :wallets, as: :owner, dependent: :destroy
   has_many :transactions, dependent: :destroy
+  has_many :sales, dependent: :destroy
 
   enum :status, {
     active: 'active',
