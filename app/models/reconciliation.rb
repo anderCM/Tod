@@ -29,7 +29,7 @@ class Reconciliation < ApplicationRecord
   }
 
   enum :initiated_by, {
-    store_user: 'store',
+    store: 'store',
     admin: 'admin',
     system: 'system'
   }

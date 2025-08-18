@@ -25,7 +25,5 @@ class ReconciliationFile < ApplicationRecord
   validates :status, presence: true
 
   # Scopes
-  scope :pending, -> { where(status: 'pending') }
-  scope :completed, -> { where(status: 'completed') }
   scope :recent, -> { order(created_at: :desc) }
 end
