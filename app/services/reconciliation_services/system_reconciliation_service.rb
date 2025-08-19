@@ -97,7 +97,6 @@ module ReconciliationServices
 
       rules.each do |rule|
         potential_matches.each do |transaction|
-          debugger
           match_result = apply_rule_by_type(sale, transaction, rule)
 
           if match_result[:matched]
