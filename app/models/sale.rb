@@ -3,7 +3,6 @@
 class Sale < ApplicationRecord
   belongs_to :store
   belongs_to :customer
-  has_one :payment_transaction, class_name: "Transaction", dependent: :destroy
 
   enum :status, {
     completed: 'completed',

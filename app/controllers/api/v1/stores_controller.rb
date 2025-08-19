@@ -32,6 +32,31 @@ module Api
         end
       end
 
+      def reconciliation_rules
+        service = StoreReconciliationRules::GetRulesService.new(store: current_store)
+        service.call
+
+        if service.valid?
+          render json: { rules: service.rules }, status: :ok
+        else
+          render json: { errors: service.errors }, status: :unprocessable_entity
+        end
+      end
+
+      def update_reconciliation_rules
+        service = StoreReconciliationRules::UpdateRulesService.new(
+          store: current_store,
+          rules_params: update_reconciliation_rules_params[:rules]
+        )
+        service.call
+
+        if service.valid?
+          render json: { rules: service.updated_rules }, status: :ok
+        else
+          render json: { errors: service.errors }, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def store_params
@@ -40,6 +65,10 @@ module Api
       
       def update_params
         params.require(:store).permit(:name, :phone, :address, :description, :password)
+      end
+
+      def update_reconciliation_rules_params
+        params.require(:store).permit(rules: [:rule_id, :tolerance_value, :active, :priority])
       end
 
       def generate_authentication_token
