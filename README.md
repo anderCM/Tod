@@ -1,5 +1,5 @@
 # Tod API
-![Mr PeanutButter](https://static.wikia.nocookie.net/bojackhorseman/images/4/4b/Mr._Peanutbutter_casual.png/revision/latest?cb=20190314203721)
+![Tod](https://static.wikia.nocookie.net/lgbt/images/5/53/Todd_Chavez.png/revision/latest?cb=20240325205726&path-prefix=es)
 
 
 A RESTful API developed with Ruby on Rails, providing crypto services using the [CoinGecko API](https://docs.coingecko.com/reference/introduction). This project uses Docker for easier development and deployment.
