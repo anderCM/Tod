@@ -138,9 +138,9 @@ RSpec.describe StoreReconciliationRules::GetRulesService do
       let!(:rule2) { create(:reconciliation_rule, :date, priority: 20) }
       let!(:rule3) { create(:reconciliation_rule, :percentage, priority: 30) }
       
-      let!(:store_rule1) { create(:store_reconciliation_rule, store: store, reconciliation_rule: rule1, priority: 2) }
-      let!(:store_rule2) { create(:store_reconciliation_rule, store: store, reconciliation_rule: rule2, priority: 1) }
-      let!(:store_rule3) { create(:store_reconciliation_rule, store: store, reconciliation_rule: rule3, priority: 3) }
+      let!(:store_rule1) { create(:store_reconciliation_rule, store: store, reconciliation_rule: rule1, tolerance_value: 0, priority: 2) }
+      let!(:store_rule2) { create(:store_reconciliation_rule, store: store, reconciliation_rule: rule2, priority: 1, tolerance_value: 2) }
+      let!(:store_rule3) { create(:store_reconciliation_rule, store: store, reconciliation_rule: rule3, priority: 3, tolerance_value: 20) }
 
       before { service.call }
 
@@ -159,7 +159,7 @@ RSpec.describe StoreReconciliationRules::GetRulesService do
         create(:store_reconciliation_rule, 
           store: store,
           reconciliation_rule: rule1,
-          tolerance_value: 200,
+          tolerance_value: 0,  # Must be 0 for exact type
           priority: 15,
           active: false
         )
@@ -170,7 +170,7 @@ RSpec.describe StoreReconciliationRules::GetRulesService do
       it 'uses store values when available' do
         rule1_result = service.rules.find { |r| r[:id] == rule1.id }
         
-        expect(rule1_result[:tolerance_value]).to eq(200)
+        expect(rule1_result[:tolerance_value]).to eq(0)
         expect(rule1_result[:priority]).to eq(15)
         expect(rule1_result[:active]).to eq(false)
       end

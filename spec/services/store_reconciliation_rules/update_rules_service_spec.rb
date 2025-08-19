@@ -163,13 +163,13 @@ RSpec.describe StoreReconciliationRules::UpdateRulesService do
         [
           {
             rule_id: rule1.id,
-            tolerance_value: 1,
+            tolerance_value: 0,  # Must be 0 for exact type
             priority: 10,
             active: false
           },
           {
             rule_id: rule2.id,
-            tolerance_value: 30,
+            tolerance_value: 30,  # Valid for date type (max 31)
             priority: 15,
             active: true
           }
@@ -186,7 +186,7 @@ RSpec.describe StoreReconciliationRules::UpdateRulesService do
         service.call
         existing_store_rule.reload
         
-        expect(existing_store_rule.tolerance_value).to eq(1)
+        expect(existing_store_rule.tolerance_value).to eq(0)
         expect(existing_store_rule.priority).to eq(10)
         expect(existing_store_rule.active).to be false
       end
@@ -351,6 +351,121 @@ RSpec.describe StoreReconciliationRules::UpdateRulesService do
       end
     end
 
+    context 'when duplicate priority for same store' do
+      let!(:rule1) { create(:reconciliation_rule, :exact) }
+      let!(:rule2) { create(:reconciliation_rule, :date) }
+      let!(:existing_store_rule) do
+        create(:store_reconciliation_rule,
+          store: store,
+          reconciliation_rule: rule1,
+          tolerance_value: 0,
+          priority: 10,
+          active: true
+        )
+      end
+      
+      let(:rules_params) do
+        [
+          {
+            rule_id: rule2.id,
+            tolerance_value: 5,
+            priority: 10,  # Same priority as existing rule
+            active: true
+          }
+        ]
+      end
+
+      it 'sets service as invalid' do
+        service.call
+        expect(service.valid?).to be false
+      end
+
+      it 'sets error message about duplicate priority' do
+        service.call
+        expect(service.errors[:message]).to include('ya existe otra regla con esta prioridad')
+      end
+
+      it 'does not create the duplicate priority rule' do
+        expect {
+          service.call
+        }.not_to change { StoreReconciliationRule.count }
+      end
+    end
+
+    context 'when tolerance_value invalid for rule type' do
+      context 'exact type with non-zero tolerance' do
+        let!(:rule) { create(:reconciliation_rule, :exact) }
+        let(:rules_params) do
+          [
+            {
+              rule_id: rule.id,
+              tolerance_value: 5,  # Invalid for exact type (must be 0)
+              priority: 10,
+              active: true
+            }
+          ]
+        end
+
+        it 'sets service as invalid' do
+          service.call
+          expect(service.valid?).to be false
+        end
+
+        it 'sets error message about tolerance value' do
+          service.call
+          expect(service.errors[:message]).to include('debe ser 0 para match exacto')
+        end
+      end
+
+      context 'date type with tolerance > 31' do
+        let!(:rule) { create(:reconciliation_rule, :date) }
+        let(:rules_params) do
+          [
+            {
+              rule_id: rule.id,
+              tolerance_value: 32,  # Invalid for date type (max 31)
+              priority: 10,
+              active: true
+            }
+          ]
+        end
+
+        it 'sets service as invalid' do
+          service.call
+          expect(service.valid?).to be false
+        end
+
+        it 'sets error message about tolerance value' do
+          service.call
+          expect(service.errors[:message]).to include('debe ser entre 0 y 31 días')
+        end
+      end
+
+      context 'percentage type with tolerance > 100' do
+        let!(:rule) { create(:reconciliation_rule, :percentage) }
+        let(:rules_params) do
+          [
+            {
+              rule_id: rule.id,
+              tolerance_value: 101,  # Invalid for percentage type (max 100)
+              priority: 10,
+              active: true
+            }
+          ]
+        end
+
+        it 'sets service as invalid' do
+          service.call
+          expect(service.valid?).to be false
+        end
+
+        it 'sets error message about tolerance value' do
+          service.call
+          expect(service.errors[:message]).to include('debe ser entre 0 y 100%')
+        end
+      end
+    end
+
     context 'when a database error occurs' do
       let!(:rule) { create(:reconciliation_rule, :exact) }
       let(:rules_params) do
@@ -493,7 +608,7 @@ RSpec.describe StoreReconciliationRules::UpdateRulesService do
         create(:store_reconciliation_rule,
           store: other_store,
           reconciliation_rule: rule,
-          tolerance_value: 999,
+          tolerance_value: 0,
           priority: 99,
           active: false
         )
@@ -514,7 +629,7 @@ RSpec.describe StoreReconciliationRules::UpdateRulesService do
         service.call
         other_store_rule.reload
         
-        expect(other_store_rule.tolerance_value).to eq(999)
+        expect(other_store_rule.tolerance_value).to eq(0)
         expect(other_store_rule.priority).to eq(99)
         expect(other_store_rule.active).to be false
       end
