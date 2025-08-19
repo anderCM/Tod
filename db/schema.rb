@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_17_190244) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_19_063325) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -147,6 +147,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_17_190244) do
     t.datetime "updated_at", null: false
     t.index ["reconciliation_rule_id"], name: "index_store_reconciliation_rules_on_reconciliation_rule_id"
     t.index ["store_id", "active", "priority"], name: "idx_store_recon_rules_lookup"
+    t.index ["store_id", "priority"], name: "idx_store_priority_unique", unique: true
     t.index ["store_id", "reconciliation_rule_id"], name: "idx_store_recon_rules_unique", unique: true
     t.index ["store_id"], name: "index_store_reconciliation_rules_on_store_id"
   end

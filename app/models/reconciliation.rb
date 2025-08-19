@@ -25,11 +25,11 @@ class Reconciliation < ApplicationRecord
     automatic: 'automatic',
     manual: 'manual',
     mixed: 'mixed',
-    csv_import: 'csv_import'
+    file_import: 'file_import'
   }
 
   enum :initiated_by, {
-    store: 'store',
+    store_user: 'store_user',
     admin: 'admin',
     system: 'system'
   }
