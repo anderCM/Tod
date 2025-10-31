@@ -44,7 +44,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
   gem "rubocop-shopify", require: false
   
-  gem "rspec-rails", "~> 6.1"
+  gem "rspec-rails", "~> 8.0"
   gem "factory_bot_rails", "~> 6.4"
   gem "database_cleaner-active_record", "~> 2.1"
 end
